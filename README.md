@@ -1,5 +1,7 @@
 # Full-Stack Todo App (Next.js + Tailwind + shadcn/ui + Prisma + MongoDB)
 
+**Live demo:** https://full-stack-todo-app-using-next-js-gz1m-6efgoz2nh.vercel.app
+
 A simple full-stack TODO application built with Next.js (App Router), styled with Tailwind CSS and shadcn/ui, authenticated using Clerk, and backed by Prisma + MongoDB.  
 Form validation uses **zod** + **react-hook-form**. The app supports light/dark themes via **next-themes**. Todos are tied to Clerk users (userId) and persisted with Prisma (MongoDB).
 
@@ -133,7 +135,7 @@ Open `http://localhost:3000`.
 
 ## Deployment
 
-1. Set up your environment variables in the hosting service (Vercel, Netlify, Render, etc.), matching the `.env` keys above.
+1. I deployed this app on **Vercel**. Set up your environment variables in Vercel (or your hosting provider) matching the `.env` keys above.
 2. Ensure `DATABASE_URL` points to your production MongoDB cluster.
 3. Add Clerk keys in the host's environment settings:
    - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
