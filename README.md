@@ -1,6 +1,6 @@
-# Full-Stack Todo App (Next.js + Tailwind + Prisma + MongoDB)
+# Full-Stack Todo App (Next.js + Tailwind + shadcn/ui + Prisma + MongoDB)
 
-A simple full-stack TODO application built with Next.js (App Router), styled with Tailwind CSS, authenticated using Clerk, and backed by Prisma + MongoDB.  
+A simple full-stack TODO application built with Next.js (App Router), styled with Tailwind CSS and shadcn/ui, authenticated using Clerk, and backed by Prisma + MongoDB.  
 Form validation uses **zod** + **react-hook-form**. The app supports light/dark themes via **next-themes**. Todos are tied to Clerk users (userId) and persisted with Prisma (MongoDB).
 
 ---
@@ -11,7 +11,7 @@ Form validation uses **zod** + **react-hook-form**. The app supports light/dark 
 - Create, read, update, delete todos (CRUD) — each todo attached to the authenticated user.
 - Form validation with **zod** and **react-hook-form**.
 - Dark / Light mode using **next-themes** and a UI toggle (ModeToggle).
-- Clean UI using **Tailwind CSS** and reusable UI components.
+- Clean UI using **Tailwind CSS**, **shadcn/ui** components and reusable UI parts.
 - Prisma schema for `Todo` model stored in MongoDB.
 - Server actions (Next.js App Router) to create/update/delete todos and revalidate the index.
 
@@ -22,11 +22,12 @@ Form validation uses **zod** + **react-hook-form**. The app supports light/dark 
 - Next.js (App Router)
 - React (client components + server actions)
 - Tailwind CSS
+- shadcn/ui (UI primitives)
 - Prisma ORM (MongoDB connector)
 - MongoDB (Atlas or self-hosted)
 - Clerk (authentication)
 - zod + react-hook-form (validation)
-- Lucide icons, shadcn/ui (optional UI primitives)
+- Lucide icons
 
 ---
 
@@ -60,8 +61,8 @@ public/
 
 ### 1. Clone repository
 ```bash
-git clone https://github.com/<your-username>/<repo>.git
-cd <repo>
+git clone https://github.com/Elnaggar222/Full-Stack-Todo-App-Using-Next.js.git
+cd Full-Stack-Todo-App-Using-Next.js
 ```
 
 ### 2. Install dependencies
@@ -71,26 +72,28 @@ npm install
 yarn
 ```
 
-### 3. Environment variables
+### 3. Environment variables (DO NOT COMMIT `.env`)
+Create a `.env` file in the project root (do **not** commit `.env`). Below are two options: a safe **example** with placeholders (recommended for README), and your current `.env` content as you provided (keep private — do NOT push to a public repo).
 
-Create a `.env` file in the project root (do **not** commit `.env`).
-
-Create a `.env.local` or `.env` with these variables:
-
+#### Recommended `.env.example` (use placeholders)
 ```env
 # MongoDB (MongoDB connection string)
 DATABASE_URL="mongodb+srv://<user>:<password>@cluster0.mongodb.net/<dbname>?retryWrites=true&w=majority"
 
 # Clerk (authentication)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxx
-NEXT_PUBLIC_CLERK_FRONTEND_API=xxxxx
 CLERK_SECRET_KEY=sk_test_xxx
+
+# Clerk redirects / routes (optional)
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 
 # Next (optional)
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-> Replace placeholders with your real credentials from MongoDB Atlas and Clerk Dashboard.
+> Replace placeholders with your real credentials from MongoDB Atlas and Clerk Dashboard. **Never commit real secret keys or `.env` files** to a public repository.
+
 
 ### 4. Prisma & database (MongoDB)
 
@@ -101,7 +104,7 @@ npx prisma generate
 npx prisma db push
 ```
 
-> `prisma db push` syncs your Prisma schema to the database (suitable for MongoDB workflows). If you later need migrations for SQL DBs, use Prisma Migrate — but for MongoDB `db push` is the proper approach for schema prototyping / deploying changes.
+> `prisma db push` syncs your Prisma schema to the database (suitable for MongoDB workflows).
 
 ### 5. Run the dev server
 ```bash
@@ -111,31 +114,6 @@ yarn dev
 ```
 
 Open `http://localhost:3000`.
-
----
-
-## Prisma Schema (example `prisma/schema.prisma`)
-
-```prisma
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
-}
-
-model Todo {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String?
-  completed   Boolean  @default(false)
-  userId      String
-  createdAt   DateTime @default(now())
-}
-```
-
 ---
 
 ## How authentication & todos work
@@ -159,39 +137,22 @@ model Todo {
 2. Ensure `DATABASE_URL` points to your production MongoDB cluster.
 3. Add Clerk keys in the host's environment settings:
    - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
-   - `NEXT_PUBLIC_CLERK_FRONTEND_API`
    - `CLERK_SECRET_KEY`
 4. Build & deploy:
 ```bash
 npm run build
 npm start
 ```
-(When deploying on Vercel the default build command `npm run build` and output `next build` are used automatically.)
+
+When deploying on Vercel the default build command `npm run build` is used automatically.
 
 ---
 
 ## Troubleshooting
 
-- If Clerk complains about a missing publishable key, ensure `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `NEXT_PUBLIC_CLERK_FRONTEND_API` are set in your deployment environment.
+- If Clerk complains about a missing publishable key, ensure `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and relevant Clerk env routes are set in your deployment environment.
 - For Prisma + MongoDB, use `npx prisma db push` to apply the Prisma schema to the DB. If you hit issues with `db push`, check your `DATABASE_URL` and Prisma version.
 - If you accidentally lose local commits during git operations (rebase/push), use `git reflog` to recover previous commits.
-
----
-
-## Scripts
-
-Typical package.json scripts:
-
-```json
-"scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "next lint",
-  "prisma:generate": "prisma generate",
-  "prisma:push": "prisma db push"
-}
-```
 
 ---
 
@@ -207,4 +168,7 @@ Typical package.json scripts:
 ## License & Contact
 
 MIT License — feel free to reuse and adapt.  
-If you want to reach me: `Mohamed` (your contact info / LinkedIn).
+If you want to reach me: **Mohamed Elnaggar**  
+- Phone: `01010927998`  
+- LinkedIn: https://www.linkedin.com/in/eng-elnaggar/
+
