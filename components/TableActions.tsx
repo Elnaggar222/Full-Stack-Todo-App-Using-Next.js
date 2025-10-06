@@ -25,7 +25,7 @@ const TableActions = ({ todo }: IProps) => {
         variant={"destructive"}
         size={"icon"}
         //non-null assertion operator (!)
-        onClick={() => onDelete(todo.id)}
+        onClick={() => onDelete(todo.id as string)}
       >
         {loading ? <LoadingSpinner /> : <Trash />}
       </Button>
